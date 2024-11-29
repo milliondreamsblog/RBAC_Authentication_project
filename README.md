@@ -58,17 +58,6 @@ Ensure you have the following installed on your system:
 
    Replace `<username>` and `<password>` with your MongoDB Atlas credentials.
 
-4. Start the development server:
-   ```bash
-   npm start
-   ```
-
-5. Open your browser and navigate to:
-   ```
-   http://localhost:5000
-   ```
-
----
 
 ## **Project Structure**
 
