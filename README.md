@@ -50,10 +50,11 @@ Ensure you have the following installed on your system:
 
 3. Create a `.env` file in the root directory and add the following environment variables:
    ```env
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/auth-system
-   PORT=5000
-   SECRET_KEY=your-secret-key
+   MONGO_URL = "mongodb+srv://admin:<password>@cluster0.zfd80.mongodb.net/"
+   JWT_SECRET = "Hare Krishna"
+   JWT_SERECT_ADMIN  = "Hare Krishna"
    ```
+   REFER .evn.expample.file
 
    Replace `<username>` and `<password>` with your MongoDB Atlas credentials.
 
@@ -94,6 +95,7 @@ auth-system/
 ## **Usage**
 
 ### **Endpoints**
+Refer this to access sample run test for all -- https://periodic-sorrel-126.notion.site/Instruction-to-run-the-project-14d81f6e8c9280dea1d2f5f0eddc532e?pvs=4
 | Method | Endpoint       | Description            |
 |--------|----------------|------------------------|
 | POST   | `/api/register` | Register a new user    |
@@ -139,5 +141,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 For any inquiries, reach out to:
 
 - **Name**: Akshat Darshi  
-- **Email**: your-email@example.com  
-- **GitHub**: [your-username](https://github.com/your-username)
+- **Email**: akshatsan23@gmail.com
+- **GitHub**: [milliondreamsblog]((https://github.com/milliondreamsblog))
