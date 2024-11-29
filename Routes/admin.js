@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { userModel, courseModel } = require("../db");
 const { JWT_SECRET } = require("../config");
 const { adminAuth } = require("../middleware/user");
+const bcrypt = require("bcrypt");
 
 const blacklist = new Set();  // A simple blacklist (consider using Redis for production)
 
@@ -44,29 +45,39 @@ adminRouter.post("/signup", async (req, res) => {
 });
 
 // Admin Signin Route
+// Admin Signin Route
 adminRouter.post("/signin", async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const admin = await userModel.findOne({
-            email: email,
-            password: password,
-            role: "admin", // Ensure the role is "admin"
-        });
+        // Find admin by email and role
+        const admin = await userModel.findOne({ email, role: "admin" });
 
-        if (admin) {
-            const token = jwt.sign(
-                { id: admin._id, role: admin.role },
-                JWT_SECRET,
-                { expiresIn: "1h" }
-            );
-
-            res.json({ token });
-        } else {
-            res.status(401).json({
+        if (!admin) {
+            return res.status(401).json({
                 message: "Invalid credentials",
             });
         }
+
+        // Compare the provided password with the stored hashed password
+        const isPasswordValid = await bcrypt.compare(password, admin.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                message: "Invalid credentials",
+            });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: admin._id, role: admin.role },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.json({
+            token,
+            message: "Signin successful",
+        });
     } catch (error) {
         console.error("Error during admin signin:", error);
         res.status(500).json({
@@ -75,6 +86,7 @@ adminRouter.post("/signin", async (req, res) => {
         });
     }
 });
+
 
 // Upload Course Route (Admin Only)
 adminRouter.post("/course/upload", adminAuth, async (req, res) => {
